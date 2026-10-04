@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>StudyAI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0f0e17;--card:#191825;--tx:#ecebf7;--mu:#9a98b5;--ac:#7c5cff;--ac2:#25223b;--bd:#322f4d;--hd:#ffb347;--ok:#2fc27a;--bad:#ef5350}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f5ff;--card:#fff;--tx:#1d1b2e;--mu:#6b6885;--ac:#6c4cf5;--ac2:#ece8ff;--bd:#e2dff5;--hd:#c26a00}}
+:root[data-theme="light"]{--bg:#f6f5ff;--card:#fff;--tx:#1d1b2e;--mu:#6b6885;--ac:#6c4cf5;--ac2:#ece8ff;--bd:#e2dff5;--hd:#c26a00}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:0 14px 90px}
+.top{height:4px;background:var(--ac)}h1{font-size:24px;margin:14px 0 2px}.mu{color:var(--mu);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:12px 0}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0}
+.tabs button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 13px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.p{background:var(--ac);color:#fff;border:0;padding:10px 16px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer}
+button.p:disabled{opacity:.5}button.g{background:var(--ac2);color:var(--tx);border:1px solid var(--bd);padding:7px 12px;border-radius:10px;font:inherit;font-size:13px;cursor:pointer}
+textarea,input[type=text]{width:100%;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:10px;padding:10px;font:inherit}
+textarea{min-height:90px;resize:vertical}.drop{border:2px dashed var(--ac);border-radius:12px;padding:18px;text-align:center;cursor:pointer;background:var(--ac2);margin-bottom:10px}
+.pane{display:none}.pane.on{display:block}.row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap}
+h2.l{font-size:15px;color:var(--hd);margin:6px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+h3{color:var(--hd);font-size:14px;margin:16px 0 4px}.qq{font-weight:700;margin:16px 0 8px}
+.opt{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--bd);background:var(--ac2);color:var(--tx);padding:11px;border-radius:10px;margin:6px 0;font:inherit;font-size:14px;cursor:pointer}
+.opt:before{content:"";flex:none;width:14px;height:14px;border:1.5px solid var(--mu);border-radius:3px}
+.opt.ok{border-color:var(--ok);background:rgba(47,194,122,.15)}.opt.ok:before{background:var(--ok);border-color:var(--ok)}
+.opt.bad{border-color:var(--bad);background:rgba(239,83,80,.14)}.opt.bad:before{background:var(--bad);border-color:var(--bad)}
+.dg{min-height:60px;border-radius:12px;overflow:hidden;margin:12px 0;text-align:center}.dg img{max-width:100%;border-radius:12px;background:#fff}
+.bar{height:6px;background:var(--ac2);border-radius:9px;overflow:hidden;margin-bottom:10px}.bar i{display:block;height:100%;background:var(--ac)}
+.help{background:var(--ac2);border-left:3px solid var(--hd);border-radius:8px;padding:10px 12px;margin:10px 0;white-space:pre-wrap}
+.fc{min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;cursor:pointer;background:var(--ac2);border-radius:14px;padding:20px}
+.term{background:var(--ac2);border-radius:8px;padding:7px 11px;margin:5px 0;font-size:14px}
+.msg{padding:9px 13px;border-radius:12px;margin:7px 0;white-space:pre-wrap;max-width:92%}.u{background:var(--ac);color:#fff;margin-left:auto}.a{background:var(--ac2)}
+#pop{display:none;position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%);z-index:50;background:var(--hd);color:#111;border:0;border-radius:999px;padding:10px 18px;font:inherit;font-weight:700;box-shadow:0 4px 18px #0006;cursor:pointer}
+#sheet{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:70%;background:var(--card);border-top:2px solid var(--ac);border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));flex-direction:column;box-shadow:0 -8px 30px #0006}
+#sheet .q{border-left:3px solid var(--hd);padding-left:10px;color:var(--mu);font-style:italic;max-height:60px;overflow:auto;margin-bottom:8px}#sa{overflow:auto;white-space:pre-wrap;flex:1;margin:6px 0}
+</style></head><body><div class="top"></div><div class="w" id="app">
+<h1>📚 StudyAI</h1><div class="mu">Upload a PDF. It splits it into lessons, quizzes you, and reteaches what you miss.</div>
+<div class="card"><div class="drop" id="drop">📄 Tap to upload a PDF<div class="mu" id="fn">or paste text below</div></div>
+<input type="file" id="file" accept=".pdf,.txt,.md" hidden><textarea id="txt" placeholder="…or paste your research / lecture text here"></textarea>
+<div class="row"><span class="mu" id="st"></span><button class="p" id="go">✨ Start learning</button></div></div>
+<div class="tabs" id="tabs"></div>
+<div class="pane card" id="p-learn"><span class="mu">Your lessons will appear here.</span></div>
+<div class="pane card" id="p-notes"><span class="mu">Notes appear after you start.</span></div>
+<div class="pane card" id="p-cards"><span class="mu">Flashcards appear after you start.</span></div>
+<div class="pane card" id="p-tutor"><div id="chat"><div class="msg a">Hi! Ask me anything about your material. Tip: select any text on the page and tap "Ask AI".</div></div>
+<div class="row"><input type="text" id="q" placeholder="Ask a question…" style="flex:1"><button class="p" id="send">Send</button></div></div>
+</div>
+<button id="pop">💬 Ask AI about this</button>
+<div id="sheet"><div class="row" style="margin:0 0 6px"><b>Ask AI</b><button class="g" id="x">✕</button></div><div class="q" id="sq"></div>
+<div class="row" style="margin:0 0 6px;justify-content:flex-start"><button class="g" data-a="Explain this in simple words.">Explain simply</button><button class="g" data-a="Give me a real-life example.">Example</button><button class="g" data-a="Quiz me on this with one question.">Quiz me</button></div>
+<div id="sa" class="mu">Ask anything about the selected text.</div>
+<div class="row" style="margin:0"><input type="text" id="si" placeholder="Your question…" style="flex:1"><button class="p" id="ss">Ask</button></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);let S=null,doc="",P=null,li=0,att=0,cards=[],ci=0,flip=false,hist=[],selTxt="",ctx="";
+function el(t,x,c){const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e}
+const tabs=[["learn","🎓 Learn"],["notes","📝 Notes"],["cards","🃏 Cards"],["tutor","🧑‍🏫 Tutor"]];
+$("tabs").innerHTML=tabs.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join("");
+function show(t){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+t));document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t==t))}
+$("tabs").onclick=e=>{if(e.target.dataset.t)show(e.target.dataset.t)};show("learn");
+(async()=>{try{S=await claude.use("sample")}catch(e){}})();
+/* AI layer: uses claude.ai sample when present, else your own /api/ai backend (see deploy folder) */
+async function ai(input,o={}){const turns=typeof input=="string"?[{role:"user",content:input}]:input;
+if(S){if(o.json)return S.json(turns,{cache:false});const r=await S(turns,{cache:false,onText:o.onText});return r.text}
+const r=await fetch("/api/ai",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({messages:turns})});
+if(!r.ok)throw new Error("AI backend unavailable");const t=(await r.json()).text;if(o.onText)o.onText({text:t});
+return o.json?JSON.parse(t.replace(/```json|```/g,"").trim()):t}
+$("drop").onclick=()=>$("file").click();
+$("file").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("fn").textContent=f.name;$("st").textContent="Reading file…";
+try{if(f.name.toLowerCase().endsWith(".pdf")){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const d=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let t="";for(let i=1;i<=d.numPages&&t.length<60000;i++){const c=await(await d.getPage(i)).getTextContent();t+=c.items.map(x=>x.str).join(" ")+"\n"}$("txt").value=t.trim()}else $("txt").value=await f.text();
+$("st").textContent=$("txt").value?"Loaded "+$("txt").value.length+" characters":"No text found (scanned PDF?). Paste text instead."}catch(x){$("st").textContent="Could not read file. Paste text instead."}};
+$("go").onclick=async()=>{doc=$("txt").value.trim().slice(0,30000);if(!doc){$("st").textContent="Add a PDF or text first.";return}
+$("go").disabled=true;$("st").textContent="Splitting into lessons… (~30s)";
+try{P=await ai(`You are an expert tutor. Split the material into 5-7 short lessons in logical order. Return ONLY JSON: {"title":str,"lessons":[{"title":str,"text":[2-3 short paragraphs],"diagram":str (detailed description of a labelled diagram that helps understand this lesson),"terms":[{"term":str,"def":str}],"question":{"q":str,"options":[4 strs],"answer":0-3 index,"why":str}}],"cards":[{"q":str,"a":str}] (12)}. Use only the material, be accurate, explain simply.\n\nMATERIAL:\n${doc}`,{json:true});
+li=0;att=0;cards=P.cards||[];ci=0;notes();card();lesson();show("learn");$("st").textContent="Ready ✅"}catch(e){$("st").textContent="Error: "+(e.message||e.code||"try again")}$("go").disabled=false};
+/* read aloud */
+function speak(t,b){const s=speechSynthesis;if(s.speaking){s.cancel();b.textContent="🔊 Listen";return}const u=new SpeechSynthesisUtterance(t);u.onend=()=>b.textContent="🔊 Listen";b.textContent="⏹ Stop";s.speak(u)}
+function diagram(L,box){if(L.svg){box.innerHTML="";const i=new Image();i.src=L.svg;i.alt=L.title;box.append(i);return}
+box.textContent="🎨 Drawing diagram…";box.className="dg mu";if(L.busy)return;L.busy=1;
+ai(`Draw a clear, colourful, labelled educational diagram: ${L.diagram}. Output ONLY one complete <svg> element, viewBox="0 0 800 480", white background rect, labels 16px+, arrows where useful, no scripts, no external images.`).then(t=>{const m=t.match(/<svg[\s\S]*<\/svg>/i);if(!m)throw 0;L.svg="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(m[0]);if(box.isConnected)diagram(L,box)}).catch(()=>{box.textContent="(diagram unavailable)"}).finally(()=>L.busy=0)}
+function lesson(){const p=$("p-learn");p.innerHTML="";speechSynthesis.cancel();
+if(li>=P.lessons.length){p.append(el("h2","🎉 Course complete!","l"),el("p","You finished all "+P.lessons.length+" lessons. Try the Cards tab to lock it in, or ask the Tutor anything.","mu"));const b=el("button","Restart","p");b.onclick=()=>{li=0;lesson()};p.append(b);return}
+const L=P.lessons[li];ctx=L.title+". "+L.text.join(" ");
+const bar=el("div",null,"bar");bar.innerHTML=`<i style="width:${li/P.lessons.length*100}%"></i>`;p.append(bar);
+const h=el("h2",L.title,"l");const sp=el("button","🔊 Listen","g");sp.onclick=()=>speak(L.title+". "+L.text.join(" "),sp);h.append(sp);p.append(h);
+L.text.forEach(t=>p.append(el("p",t)));const box=el("div",null,"dg");p.append(box);diagram(L,box);
+p.append(el("div",L.question.q,"qq"));ask(L.question,p)}
+function ask(Q,p){let done=false;const fb=el("div");Q.options.forEach((o,i)=>{const b=el("button",o,"opt");b.onclick=()=>{if(done)return;done=true;
+if(i==Q.answer){b.classList.add("ok");fb.append(el("div","✅ "+Q.why,"help"));const n=el("button",li+1<P.lessons.length?"Next lesson →":"Finish","p");n.onclick=()=>{li++;att=0;lesson();scrollTo(0,0)};fb.append(n)}
+else{b.classList.add("bad");const wrong=o;const t=el("div","Not quite. Let me explain it another way…","help");fb.append(t);att++;
+ai(`A student is learning from this lesson:\n${ctx}\n\nQuestion: ${Q.q}\nThey chose: "${wrong}". Correct: "${Q.options[Q.answer]}".\nReturn ONLY JSON: {"explain":str (kind, simple reteach with an analogy, say why their choice is wrong, under 120 words),"question":{"q":str,"options":[4 strs],"answer":0-3,"why":str}} - the new question tests the same idea differently.`,{json:true}).then(r=>{t.textContent="💡 "+r.explain;const q2=r.question;const w=el("div");w.append(el("div",q2.q,"qq"));fb.append(w);ask(q2,w)}).catch(()=>{t.textContent="Correct answer: "+Q.options[Q.answer]+". "+Q.why;const n=el("button","Next lesson →","p");n.onclick=()=>{li++;lesson()};fb.append(n)})}};p.append(b)});p.append(fb)}
+function notes(){const p=$("p-notes");p.innerHTML="";const h=el("h2",P.title,"l");const sp=el("button","🔊 Listen all","g");sp.onclick=()=>speak(P.lessons.map(l=>l.title+". "+l.text.join(" ")).join(" "),sp);h.append(sp);p.append(h);
+P.lessons.forEach(l=>{p.append(el("h3",l.title));l.text.forEach(t=>p.append(el("p",t)));(l.terms||[]).forEach(t=>{const d=el("div",null,"term");d.append(el("b",t.term+": "),document.createTextNode(t.def));p.append(d)})})}
+function card(){const p=$("p-cards");if(!cards.length)return;p.innerHTML="";const c=cards[ci];const f=el("div",flip?c.a:c.q,"fc");f.onclick=()=>{flip=!flip;card()};
+const r=el("div",null,"row"),a=el("button","← Prev","p"),b=el("button","Next →","p");a.onclick=()=>{ci=(ci-1+cards.length)%cards.length;flip=false;card()};b.onclick=()=>{ci=(ci+1)%cards.length;flip=false;card()};r.append(a,el("span",(ci+1)+"/"+cards.length+" · tap to flip","mu"),b);p.append(f,r)}
+async function tutor(){const m=$("q").value.trim();if(!m)return;$("q").value="";hist.push({role:"user",content:m});$("chat").append(el("div",m,"msg u"));const out=el("div","Thinking…","msg a");$("chat").append(out);
+const turns=hist.map((h,i)=>i==0?{role:"user",content:`You are a friendly tutor. Teach step by step with examples, then ask a short check question.\nMATERIAL:\n${doc||"(none)"}\n\nStudent: ${h.content}`}:h);
+try{const t=await ai(turns,{onText:x=>out.textContent=x.text});out.textContent=t;hist.push({role:"assistant",content:t})}catch(e){out.textContent="Error, try again.";hist.pop()}}
+$("send").onclick=tutor;$("q").onkeydown=e=>{if(e.key=="Enter")tutor()};
+/* select text -> Ask AI */
+let tm,open=false;document.addEventListener("selectionchange",()=>{clearTimeout(tm);tm=setTimeout(()=>{const s=getSelection(),t=s.toString().trim();
+if(t.length>2&&s.anchorNode&&$("app").contains(s.anchorNode)){selTxt=t;$("pop").style.display="block"}else if(!open)$("pop").style.display="none"},250)});
+$("pop").onpointerdown=e=>e.preventDefault();
+$("pop").onclick=()=>{open=true;$("pop").style.display="none";$("sheet").style.display="flex";$("sq").textContent="“"+selTxt.slice(0,300)+"”";$("sa").textContent="Pick a quick action or type a question."};
+$("x").onclick=()=>{open=false;$("sheet").style.display="none";speechSynthesis.cancel()};
+async function sAsk(q){if(!q)return;const o=$("sa");o.textContent="Thinking…";try{const t=await ai(`A student is studying${ctx?" this lesson:\n"+ctx:""}\nThey selected this text: "${selTxt}"\nTheir request: ${q}\nAnswer clearly and simply in under 150 words.`,{onText:x=>o.textContent=x.text});o.textContent=t}catch(e){o.textContent="Error, try again."}}
+$("ss").onclick=()=>{sAsk($("si").value.trim());$("si").value=""};$("si").onkeydown=e=>{if(e.key=="Enter")$("ss").click()};
+document.querySelectorAll("#sheet [data-a]").forEach(b=>b.onclick=()=>sAsk(b.dataset.a));
+</script></body></html>
